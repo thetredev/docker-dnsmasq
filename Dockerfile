@@ -1,7 +1,7 @@
 FROM alpine:edge
 
 # see https://docs.docker.com/reference/dockerfile/#maintainer-deprecated
-LABEL com.github.jpillora.docker-dnsmasq.authors="dev@jpillora.com"
+LABEL com.github.jpillora.docker-dnsmasq.authors="dev@jpillora.com thetredev@gmail.com"
 
 # webproc release settings
 ENV WEBPROC_VERSION 0.2.2
