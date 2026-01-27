@@ -4,8 +4,8 @@ FROM alpine:3.23.2
 LABEL com.github.jpillora.docker-dnsmasq.authors="dev@jpillora.com thetredev@gmail.com"
 
 # webproc release settings
-ARG WEBPROC_VERSION=0.2.2
-ARG WEBPROC_URL=https://github.com/jpillora/webproc/releases/download/$WEBPROC_VERSION/webproc_linux_amd64.gz
+ARG WEBPROC_VERSION=0.4.0
+ARG WEBPROC_URL=https://github.com/jpillora/webproc/releases/download/v${WEBPROC_VERSION}/webproc_${WEBPROC_VERSION}_linux_amd64.gz
 
 # fetch dnsmasq and webproc binary
 RUN <<EOF
@@ -20,4 +20,4 @@ EOF
 COPY --link=true rootfs/etc /etc
 
 # run!
-ENTRYPOINT ["webproc", "--config", "/etc/dnsmasq.conf", "--", "dnsmasq", "--no-daemon"]
+ENTRYPOINT ["webproc", "-c", "/etc/dnsmasq.conf", "--", "dnsmasq", "--no-daemon"]
