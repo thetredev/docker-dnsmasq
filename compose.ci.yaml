@@ -1,0 +1,6 @@
+# make services listed in compose.yaml run in CI
+
+services:
+  dnsmasq:
+    image: localhost.lo/docker-dnsmasq:develop
+    volumes: !override []

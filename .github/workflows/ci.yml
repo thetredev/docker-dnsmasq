@@ -12,7 +12,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  oci:
+  build-test-push:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -36,12 +36,29 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
+      - name: Build the container image
+        uses: docker/build-push-action@v6
+        with:
+          context: image
+          pull: false
+          push: false
+          tags: localhost.lo/docker-dnsmasq:develop
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Test the container image
+        run: |
+          docker compose -f compose.yaml -f compose.ci.yaml up -d
+          dig myhost.company @127.0.0.1 | grep -w 'myhost.company.		0	IN	A	10.0.0.2'
+
+      - name: Push the container image
         id: push
         uses: docker/build-push-action@v6
         with:
           context: image
+          pull: false
           push: true
+          cache-from: |
+            type=registry,ref=localhost.lo/docker-dnsmasq:develop
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
