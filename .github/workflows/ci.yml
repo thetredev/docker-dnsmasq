@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - develop
+    tags:
+      - '**' # Push events to every tag including hierarchical tags like v1.0/beta
 
 env:
   REGISTRY: ghcr.io
