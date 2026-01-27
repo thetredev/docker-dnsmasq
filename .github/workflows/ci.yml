@@ -67,7 +67,6 @@ jobs:
           push: true
           cache-from: |
             type=registry,ref=${{ steps.meta.outputs.tags }}-cache
-            type=registry,ref=localhost.lo/docker-dnsmasq:develop
           cache-to: |
             type=registry,ref=${{ steps.meta.outputs.tags }}-cache
           tags: ${{ steps.meta.outputs.tags }}
