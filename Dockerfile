@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.23.2
 
 # see https://docs.docker.com/reference/dockerfile/#maintainer-deprecated
 LABEL com.github.jpillora.docker-dnsmasq.authors="dev@jpillora.com thetredev@gmail.com"
