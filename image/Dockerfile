@@ -16,7 +16,7 @@ RUN apk update \
 	&& apk del .build-deps
 
 # configure dnsmasq
-COPY rootfs/etc /etc
+COPY --link=true rootfs/etc /etc
 
 # run!
 ENTRYPOINT ["webproc", "--config", "/etc/dnsmasq.conf", "--", "dnsmasq", "--no-daemon"]
