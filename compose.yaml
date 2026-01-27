@@ -1,0 +1,20 @@
+services:
+  dnsmasq:
+    # PLEASE NOTE: this is the development version of the container image!
+    # Make sure to use a pinned version instead:
+    #
+    #      ghcr.io/thetredev/docker-dnsmasq:<release>
+    image: ghcr.io/thetredev/docker-dnsmasq:develop
+    container_name: dnsmasq
+    restart: unless-stopped
+    environment:
+      HTTP_USER: foo
+      HTTP_PASS: bar
+    volumes:
+      - /opt/dnsmasq.conf:/etc/dnsmasq.conf
+    ports:
+      - 53:53/udp
+      - 5380:8080
+    logging:
+      options:
+        max-size: 100m
