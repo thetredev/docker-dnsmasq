@@ -65,10 +65,6 @@ jobs:
           context: image
           pull: false
           push: true
-          cache-from: |
-            type=registry,ref=${{ steps.meta.outputs.tags }}-cache
-          cache-to: |
-            type=registry,ref=${{ steps.meta.outputs.tags }}-cache
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
