@@ -4,21 +4,43 @@
 ARG DNSMASQ_VERSION=2.92
 
 # webproc release settings
-ARG WEBPROC_VERSION=0.4.0
-ARG WEBPROC_URL=https://github.com/jpillora/webproc/releases/download/v${WEBPROC_VERSION}/webproc_${WEBPROC_VERSION}_linux_amd64.gz
+ARG WEBPROC_VERSION=v0.4.0
+ARG WEBPROC_URL=https://github.com/jpillora/webproc.git
 
 
 ## container image build instructions
 FROM alpine:3.23.2 AS webproc
 
-# fetch dnsmasq and webproc binary
+# build webproc binary
+ARG WEBPROC_VERSION
 ARG WEBPROC_URL
-RUN wget -O - ${WEBPROC_URL} | gzip -d - > /srv/webproc
+
+ENV CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+WORKDIR /srv/build
+RUN <<EOF
+  apk add --no-cache \
+    git \
+    go
+
+  git clone ${WEBPROC_URL}
+  cd webproc
+  git checkout ${WEBPROC_VERSION}
+
+  go get -u ./...
+  go mod tidy
+
+  go build -ldflags "-s -w"
+  mv webproc /srv/webproc
+EOF
 
 
 FROM alpine:3.23.2 AS dnsmasq
 ARG DNSMASQ_VERSION
 
+# build dnsmasq binary
 WORKDIR /srv/build
 RUN <<EOF
   apk add --no-cache \
