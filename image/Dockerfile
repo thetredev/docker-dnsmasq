@@ -71,9 +71,9 @@ FROM scratch
 # see https://docs.docker.com/reference/dockerfile/#maintainer-deprecated
 LABEL com.github.jpillora.docker-dnsmasq.authors="dev@jpillora.com thetredev@gmail.com"
 
-COPY --from=webproc --chmod=0744 /srv/webproc /apps/webproc/bin/webproc
-COPY --from=dnsmasq --chmod=0744 /srv/dnsmasq/bin /apps/dnsmasq/bin
-COPY --from=dnsmasq /srv/dnsmasq/etc /etc
+COPY --link=true --from=webproc --chmod=0744 /srv/webproc /apps/webproc/bin/webproc
+COPY --link=true --from=dnsmasq --chmod=0744 /srv/dnsmasq/bin /apps/dnsmasq/bin
+COPY --link=true --from=dnsmasq /srv/dnsmasq/etc /etc
 
 # configure dnsmasq
 COPY --link=true rootfs/etc /etc
